@@ -13,6 +13,8 @@ A new flutter plugin project.
   s.author           = { 'CloudWebRTC' => 'duanweiwei1982@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
+
+  s.vendored_frameworks = 'WebRTC.framework'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'libyuv-iOS'
