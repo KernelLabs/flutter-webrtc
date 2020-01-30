@@ -14,6 +14,8 @@ A new flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
 
+  s.preserve_paths = 'WebRTC.framework'
+  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework WebRTC' }
   s.vendored_frameworks = 'WebRTC.framework'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
