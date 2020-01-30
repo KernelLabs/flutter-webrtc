@@ -398,6 +398,7 @@
     
     NSString *streamId = stream.streamId;
     peerConnection.remoteStreams[streamId] = stream;
+    self.remoteAudioStream = stream;
     
     FlutterEventSink eventSink = peerConnection.eventSink;
     if(eventSink){
