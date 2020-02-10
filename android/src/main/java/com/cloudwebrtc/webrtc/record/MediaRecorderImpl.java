@@ -87,8 +87,10 @@ public class MediaRecorderImpl {
         isRunning = false;
         if (audioInterceptor != null)
             audioInterceptor.detachCallback(id);
+        if(audioTrack !=null && audioRenderer != null) {
+            audioRenderer.release();
+        }
     }
-
     private static final String TAG = "MediaRecorderImpl";
 
 }
