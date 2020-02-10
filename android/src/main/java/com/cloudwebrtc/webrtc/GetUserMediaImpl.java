@@ -787,10 +787,30 @@ class GetUserMediaImpl{
                 outputSamplesInterceptor = new OutputAudioSamplesInterceptor(audioDeviceModule);
             interceptor = outputSamplesInterceptor;
         }
-        MediaRecorderImpl mediaRecorder = new MediaRecorderImpl(id, videoTrack, interceptor);
-        mediaRecorder.startRecording(new File(path));
-        mediaRecorders.append(id, mediaRecorder);
+        if(videoTrack != null) {
+            MediaRecorderImpl mediaRecorder = new MediaRecorderImpl(id, videoTrack, interceptor);
+            mediaRecorder.startRecording(new File(path));
+            mediaRecorders.append(id, mediaRecorder);
+        }
     }
+
+    void startRecordingToAudio(String path, Integer id, @Nullable AudioTrack audioTrack, @Nullable AudioChannel audioChannel) throws Exception {
+        AudioSamplesInterceptor interceptor = null;
+        if (audioChannel == AudioChannel.INPUT)
+            interceptor = inputSamplesInterceptor;
+        else if (audioChannel == AudioChannel.OUTPUT) {
+            if (outputSamplesInterceptor == null)
+                outputSamplesInterceptor = new OutputAudioSamplesInterceptor(audioDeviceModule);
+            interceptor = outputSamplesInterceptor;
+        }
+        if(audioTrack != null) {
+            MediaRecorderImpl mediaRecorder = new MediaRecorderImpl(id, null, interceptor, audioTrack);
+            mediaRecorder.startRecordingAudio(new File(path));
+            mediaRecorders.append(id, mediaRecorder);
+        }
+    }
+
+
 
     void stopRecording(Integer id) {
         MediaRecorderImpl mediaRecorder = mediaRecorders.get(id);

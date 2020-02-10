@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.cloudwebrtc.webrtc.utils.EglUtils;
 
+import org.webrtc.AudioTrack;
 import org.webrtc.VideoTrack;
 
 import java.io.File;
@@ -15,6 +16,8 @@ public class MediaRecorderImpl {
     private final VideoTrack videoTrack;
     private final AudioSamplesInterceptor audioInterceptor;
     private VideoFileRenderer videoFileRenderer;
+    AudioRenderer audioRenderer;
+    AudioTrack audioTrack;
     private boolean isRunning = false;
     private File recordFile;
 
@@ -22,6 +25,25 @@ public class MediaRecorderImpl {
         this.id = id;
         this.videoTrack = videoTrack;
         this.audioInterceptor = audioInterceptor;
+    }
+
+    public MediaRecorderImpl(Integer id, @Nullable VideoTrack videoTrack, @Nullable AudioSamplesInterceptor audioInterceptor, @Nullable AudioTrack audioTrack) {
+        this.id = id;
+        this.videoTrack = videoTrack;
+        this.audioInterceptor = audioInterceptor;
+        this.audioTrack = audioTrack;
+    }
+
+    public void startRecordingAudio(File file) throws Exception{
+        recordFile = file;
+        if(isRunning) return;
+        isRunning = true;
+        file.getParentFile().mkdirs();
+        audioRenderer = new AudioRenderer(file.getAbsolutePath());
+        if(audioInterceptor != null){
+            audioInterceptor.attachCallback(id, audioRenderer);
+        }
+        stopRecordingAudio();
     }
 
     public void startRecording(File file) throws Exception {
@@ -60,6 +82,11 @@ public class MediaRecorderImpl {
             videoFileRenderer.release();
             videoFileRenderer = null;
         }
+    }
+    public void stopRecordingAudio() {
+        isRunning = false;
+        if (audioInterceptor != null)
+            audioInterceptor.detachCallback(id);
     }
 
     private static final String TAG = "MediaRecorderImpl";

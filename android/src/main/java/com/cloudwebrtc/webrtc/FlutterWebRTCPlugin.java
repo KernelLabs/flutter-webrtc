@@ -363,7 +363,33 @@ public class FlutterWebRTCPlugin implements MethodCallHandler {
             } catch (Exception e) {
                 result.error("-1", e.getMessage(), e);
             }
-        } else if (call.method.equals("stopRecordToFile")) {
+        }else if (call.method.equals("startRecordToAudio")) {
+            //This method can a lot of different exceptions
+            //so we should notify plugin user about them
+            try {
+                String path = call.argument("path");
+                AudioTrack audioTrack = null;
+                String audioTrackId = call.argument("audioTrackId");
+                if (audioTrackId != null) {
+                    MediaStreamTrack track = getTrackForId(audioTrackId);
+                    if (track instanceof AudioTrack)
+                        audioTrack = (AudioTrack) track;
+                }
+                AudioChannel audioChannel = null;
+                if (call.hasArgument("audioChannel"))
+                    audioChannel = AudioChannel.values()[(Integer) call.argument("audioChannel")];
+                Integer recorderId = call.argument("recorderId");
+                if (audioTrack != null || audioChannel != null) {
+                    getUserMediaImpl.startRecordingToAudio(path, recorderId, audioTrack, audioChannel);
+                    result.success(null);
+                } else {
+                    result.error("0", "No tracks", null);
+                }
+            } catch (Exception e) {
+                result.error("-1", e.getMessage(), e);
+            }
+        }
+        else if (call.method.equals("stopRecordToFile")) {
             Integer recorderId = call.argument("recorderId");
             getUserMediaImpl.stopRecording(recorderId);
             result.success(null);

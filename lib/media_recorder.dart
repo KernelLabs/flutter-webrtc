@@ -26,6 +26,22 @@ class MediaRecorder {
     });
   }
 
+  Future<void> startAudio(String path,
+      {MediaStreamTrack audioTrack, RecorderAudioChannel audioChannel
+      }) async {
+    if (path == null) throw ArgumentError.notNull("path");
+    if (audioChannel == null && audioTrack == null)
+      throw Exception("Neither audio nor video track were provided");
+
+    await WebRTC.methodChannel().invokeMethod('startRecordToAudio', {
+      'path': path,
+      'audioChannel': audioChannel?.index,
+      'audioTrackId': audioTrack?.id,
+      'recorderId': _recorderId
+    });
+  }
+
+
   void startWeb(MediaStream stream,
       {Function(dynamic blob, bool isLastOne) onDataChunk,
       String mimeType = 'video/mp4;codecs=h264'}) {
