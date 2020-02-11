@@ -815,7 +815,7 @@ class GetUserMediaImpl{
     void stopRecording(Integer id) {
         MediaRecorderImpl mediaRecorder = mediaRecorders.get(id);
         if (mediaRecorder != null) {
-            mediaRecorder.stopRecording();
+            mediaRecorder.stopRecordingAudio();
             mediaRecorders.remove(id);
             File file = mediaRecorder.getRecordFile();
             if (file != null) {

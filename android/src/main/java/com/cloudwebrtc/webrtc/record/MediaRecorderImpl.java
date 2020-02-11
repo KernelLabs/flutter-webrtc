@@ -43,7 +43,6 @@ public class MediaRecorderImpl {
         if(audioInterceptor != null){
             audioInterceptor.attachCallback(id, audioRenderer);
         }
-        stopRecordingAudio();
     }
 
     public void startRecording(File file) throws Exception {
