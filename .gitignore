@@ -3,6 +3,7 @@
 .DS_Store
 .packages
 .vscode/.DS_Store
+.dart_tool/
 example/pubspec.lock
 pubspec.lock
 example/ios/Podfile.lock
@@ -12,4 +13,5 @@ example/android/.gradle
 example/android/gradle*
 WorkspaceSettings.xcsettings
 example/.flutter-plugins
+example/.flutter-plugins-dependencies
 example/android/local.properties

@@ -13,11 +13,13 @@ A new flutter plugin project.
   s.author           = { 'CloudWebRTC' => 'duanweiwei1982@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
+
+  s.preserve_paths = 'WebRTC.framework'
+  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework WebRTC' }
+  s.vendored_frameworks = 'WebRTC.framework'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'libyuv-iOS'
-  s.dependency 'GoogleWebRTC', '1.1.29400'
   s.ios.deployment_target = '10.0'
   s.static_framework = true
 end
-

@@ -17,6 +17,7 @@
 }
 
 @synthesize messenger = _messenger;
+@synthesize remoteAudioStream = _remoteAudioStream;
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     
@@ -295,7 +296,12 @@
         NSDictionary* argsMap = call.arguments;
         NSString* trackId = argsMap[@"trackId"];
         NSNumber* enabled = argsMap[@"enabled"];
-        RTCMediaStreamTrack *track = self.localTracks[trackId];
+        if (self.remoteAudioStream.audioTracks.count == 0) {
+            result(nil);
+            return;
+        }
+        // RTCMediaStreamTrack *track = self.localTracks[trackId];
+        RTCMediaStreamTrack *track = self.remoteAudioStream.audioTracks[0];
         if(track != nil){
             track.isEnabled = enabled.boolValue;
         }
